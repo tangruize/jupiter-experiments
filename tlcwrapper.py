@@ -271,7 +271,7 @@ class TLCWrapper:
                 self.result['total states'] = states
                 self.result['distinct states'] = states
                 self.result['queued states'] = states
-                print_state(datetime.now() - self.result['start time'])
+                print_state(str(datetime.now() - self.result['start time']).split('.')[0])
             elif line[0].isdigit() and finish_pat.match(line) is not None:
                 groups = finish_pat.match(line).groups()
                 self.result['total states'] = int(groups[0])
