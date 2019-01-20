@@ -78,8 +78,11 @@ class TLCConfigFile:
                 is_symmetrical = False
                 if self.model_sym_pat.match(value):
                     is_model_value = True
-                    is_symmetrical = True
                     value = self.model_sym_pat.match(value).groups()[0].replace(' ', '').split(',')
+                    if len(value) <= 1:
+                        print('Warning: "{}: {}": <symmetrical> ignored'.format(name, constants[name]), file=sys.stderr)
+                    else:
+                        is_symmetrical = True
                 elif self.model_pat.match(value):
                     is_model_value = True
                     value = self.model_pat.match(value).groups()[0].replace(' ', '').split(',')
@@ -157,14 +160,19 @@ class TLCWrapper:
     default_config_file = 'config.ini'
     default_mc_cfg = 'MC.cfg'
     default_mc_tla = 'MC.tla'
+    default_mc_log = 'MC.out'
 
     def __init__(self, config_file=None, gen_cfg_fn=None, gen_tla_fn=None, is_log=True):
         """create model dir, chdir, copy files and generate tlc configfile"""
         config_file = config_file if config_file is not None else self.default_config_file
         self.cfg = ConfigParser()
         self.cfg.optionxform = str  # case sensitive
-        self.cfg.read(config_file)
+        if hasattr(config_file, 'read'):
+            self.cfg.read_file(config_file)
+        else:
+            self.cfg.read(config_file)
         self.is_log = is_log
+        self.orig_cwd = os.getcwd()
 
         target = self.cfg.get('options', 'target')
         model_name = self.cfg.get('options', 'model name')
@@ -187,6 +195,9 @@ class TLCWrapper:
                       'warnings', 'errors', 'exit state']
         self.result = OrderedDict(zip_longest(result_key, tuple()))
         self.log = []
+
+    def __del__(self):
+        os.chdir(self.orig_cwd)
 
     def _parse_options(self):
         """parse options section"""
@@ -211,11 +222,18 @@ class TLCWrapper:
 
     def run(self):
         """call tlc and analyse output"""
-        def print_state(time):
-            print(('{:<16}' * 5).format(str(time), self.result['diameter'], self.result['total states'],
-                                        self.result['distinct states'], self.result['queued states']))
+        title_printed = False
+        title_list = ['Time', 'Diameter', 'States Found', 'Distinct States', 'Queue Size']
 
-        print(('{:<16}' * 5).format('Time', 'Diameter', 'States Found', 'Distinct States', 'Queue Size'))
+        def print_state(time):
+            nonlocal title_printed
+            value_list = [str(time), self.result['diameter'], self.result['total states'],
+                          self.result['distinct states'], self.result['queued states']]
+            if all(i is not None for i in value_list):
+                if not title_printed:
+                    title_printed = True
+                    print(('{:<16}' * 5).format(*title_list))
+                print(('{:<16}' * 5).format(*value_list))
 
         progress_pat = re.compile(r'Progress\((\d+)\) at (.*): (\d+) s.*\(.*\), (\d+) d.*\(.*\), (\d+) s')
         finish_pat = re.compile(r'(\d+) states generated, (\d+) distinct states found, (\d+) states left on queue')
@@ -228,13 +246,15 @@ class TLCWrapper:
         for line in iter(process.stdout.readline, ''):
             if self.is_log:
                 self.log.append(line)
+            line = line.rstrip()
             if len(line) == 0:
                 continue
-            line = line.rstrip()
             if line.startswith('Starting...'):
                 self.result['start time'] = datetime.strptime(line, 'Starting... (%Y-%m-%d %H:%M:%S)')
             elif line.startswith('Finished in'):
                 self.result['finish time'] = datetime.strptime(line.split('at')[1], ' (%Y-%m-%d %H:%M:%S)')
+                # if self.result['finish time'] == self.result['start time']:
+                #     self.result['finish time'] = datetime.now()
                 self.result['time consuming'] = self.result['finish time'] - self.result['start time']
                 print_state(self.result['time consuming'])
             elif line.startswith('Progress'):
@@ -273,6 +293,12 @@ class TLCWrapper:
     def get_log(self):
         return self.log
 
+    def save_log(self, filename=None):
+        if filename is None:
+            filename = self.default_mc_log
+        with open(filename, 'w') as f:
+            f.writelines(self.log)
+
 
 def main(config_file):
     runner = TLCWrapper(config_file)
@@ -283,6 +309,7 @@ def main(config_file):
         print(msg, file=sys.stderr)
     print('errors: {}, warnings: {}, exit_state: {}'.format(len(result['errors']), len(result['warnings']),
                                                             result['exit state']), file=sys.stderr)
+    print(result['start time'])
 
 
 if __name__ == '__main__':
