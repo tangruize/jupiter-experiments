@@ -35,67 +35,67 @@ Nop: [model value]
 
 config = OrderedDict()
 config['AbsJupiter'] = {'target': 'AbsJupiter/AbsJupiter.tla',
-                        'model': 'TypeOK',
+                        '_model': 'TypeOK',
                         'spec': 'Spec',
                         'invariant': 'TypeOK: TypeOK',
                         'msg': 'Cop'}
 config['AbsJupiterH'] = {'target': 'AbsJupiterH/AbsJupiterH.tla',
-                         'model': 'WLSpec',
+                         '_model': 'WLSpec',
                          'spec': 'SpecH',
                          'invariant': 'WLSpec: WLSpec',
                          'msg': 'Cop'}
 config['CJupiter'] = {'target': 'CJupiter/CJupiter.tla',
-                      'model': 'Compactness',
+                      '_model': 'Compactness',
                       'spec': 'Spec',
                       'invariant': 'Compactness: Compactness',
                       'msg': 'Cop'}
 config['CJupiterH'] = {'target': 'CJupiterH/CJupiterH.tla',
-                       'model': 'WLSpec',
+                       '_model': 'WLSpec',
                        'spec': 'SpecH',
                        'invariant': 'WLSpec: WLSpec',
                        'msg': 'Cop'}
 config['CJupiterImplAbsJupiter'] = {'target': 'CJupiterImplAbsJupiter/CJupiterImplAbsJupiter.tla',
-                                    'model': 'AbsJ!Spec (NO)',
+                                    '_model': 'AbsJ!Spec (NO)',
                                     'spec': 'Spec',
                                     'invariant': '[properties]\nCJupiterImplAbsJupiter: AbsJ!Spec',
                                     'msg': 'Cop'}
 config['XJupiter'] = {'target': 'XJupiter/XJupiter.tla',
-                      'model': 'CSSync',
+                      '_model': 'CSSync',
                       'spec': 'Spec',
                       'invariant': 'CSSync: CSSync',
                       'msg': 'Cop'}
 config['XJupiterH'] = {'target': 'XJupiterH/XJupiterH.tla',
-                       'model': 'WLSpec',
+                       '_model': 'WLSpec',
                        'spec': 'SpecH',
                        'invariant': 'WLSpec: WLSpec',
                        'msg': 'Cop'}
 config['XJupiterExtended'] = {'target': 'XJupiterExtended/XJupiterExtended.tla',
-                              'model': 'CSSync',
+                              '_model': 'CSSync',
                               'spec': 'SpecEx',
                               'invariant': 'CSSync: CSSync',
                               'msg': 'Cop'}
 config['XJupiterImplCJupiter'] = {'target': 'XJupiterImplCJupiter/XJupiterImplCJupiter.tla',
-                                  'model': 'CJ!Spec (NO)',
+                                  '_model': 'CJ!Spec (NO)',
                                   'spec': 'SpecImpl',
                                   'invariant': '[properties]\nXJupiterImplCJupiter: CJ!Spec',
                                   'msg': 'Cop'}
 config['AJupiter'] = {'target': 'AJupiter/AJupiter.tla',
-                      'model': 'QC',
+                      '_model': 'QC',
                       'spec': 'Spec',
                       'invariant': 'QC: QC',
                       'msg': 'AJMsg'}
 config['AJupiterH'] = {'target': 'AJupiterH/AJupiterH.tla',
-                       'model': 'WLSpec',
+                       '_model': 'WLSpec',
                        'spec': 'SpecH',
                        'invariant': 'WLSpec: WLSpec',
                        'msg': 'AJMsg'}
 config['AJupiterExtended'] = {'target': 'AJupiterExtended/AJupiterExtended.tla',
-                              'model': 'QC',
+                              '_model': 'QC',
                               'spec': 'SpecEx',
                               'invariant': 'QC: QC',
                               'msg': 'AJMsgEx'}
 config['AJupiterImplXJupiter'] = {'target': 'AJupiterImplXJupiter/AJupiterImplXJupiter.tla',
-                                  'model': 'XJ!Spec (NO)',
+                                  '_model': 'XJ!Spec (NO)',
                                   'spec': 'SpecImpl',
                                   'invariant': '[properties]\nAJupiterImplXJupiter: XJ!Spec',
                                   'msg': 'AJMsgEx'}
@@ -107,13 +107,13 @@ output.write('# Model Checking Result\n')
 
 title = ['Protocol', 'Fairness', 'Property', 'Start Time', '# Workers', 'Checking Time', 'Diameter', '# States',
          '# Distinct States', 'Symmetry for Char', 'Symmetry for Client']
-title_len = [22, 8, 14, 19, 9, 13, 8, 10, 10, 17, 19]
+field_len = [22, 8, 14, 19, 9, 13, 8, 10, 17, 17, 19]
 formatter = []
-for i in title_len:
+for i in field_len:
     formatter.append('{{:<{}}}'.format(i))
 formatter = '| {} |\n'.format(' | '.join(formatter))
 title = formatter.format(*title)
-title2 = formatter.format(*['-' * i for i in title_len])
+title2 = formatter.format(*['-' * i for i in field_len])
 
 for client in range(1, 4):
     for char in range(1, 4):
@@ -129,11 +129,12 @@ for client in range(1, 4):
             proto_config = config[proto]
             proto_config['client'] = ', '.join(config_clients)
             proto_config['char'] = ', '.join(config_chars)
+            proto_config['model'] = '{} ({} clients, {} chars)'.format(proto_config['_model'], client, char)
             config_string_io = StringIO(template.format(**proto_config))
             tlc = TLCWrapper(config_string_io)
             print('starting "{}" : {} clients, {} chars'.format(proto, len(config_clients), len(config_chars)))
             result = tlc.run()
-            output.write(formatter.format(proto, 'No', proto_config['model'], str(result['start time']), 10,
+            output.write(formatter.format(proto, 'No', proto_config['_model'], str(result['start time']), 10,
                                           str(result['time consuming']), result['diameter'], result['total states'],
                                           result['distinct states'], 'YES', 'NO'))
             output.flush()
