@@ -214,7 +214,7 @@ class TLCWrapper:
         self.options = [self.gen_tla_fn, '-config', self.gen_cfg_fn]
         opt = self.cfg['options']
         options_list = [opt.get('user print file'), opt.getint('worker num'), opt.getint('checkpoint num'),
-                        opt.get('dump states filename'), opt.getint('dfs depth'), not opt.getboolean('check deadlock')]
+                        opt.get('dump states file'), opt.getint('dfs depth'), not opt.getboolean('check deadlock')]
         options = ['-userFile', '-workers', '-checkpoint', '-dump', '-dfid', '-deadlock']
         for i, j in zip(options, options_list):
             if j:
