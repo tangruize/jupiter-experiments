@@ -211,6 +211,9 @@ class TLCWrapper:
                 self.options.append(i)
                 if not isinstance(j, bool):
                     self.options.append(str(j))
+        if opt.get('other TLC options') is not None:
+            for field in opt.get('other TLC options').split('\n'):
+                self.options.append(field)
 
     def get_cmd(self):
         """get tlc command line"""
@@ -300,19 +303,19 @@ class TLCWrapper:
             f.writelines(self.log)
 
 
-def main(config_file):
-    runner = TLCWrapper(config_file)
-    result = runner.run()
-    for msg in result['warnings']:
-        print(msg, file=sys.stderr)
-    for msg in result['errors']:
+def main(config_file, log_file=None):
+    tlc = TLCWrapper(config_file)
+    result = tlc.run()
+    for msg in chain(result['warnings'], result['errors']):
         print(msg, file=sys.stderr)
     print('errors: {}, warnings: {}, exit_state: {}'.format(len(result['errors']), len(result['warnings']),
                                                             result['exit state']), file=sys.stderr)
-    print(result['start time'])
+    if log_file is not None:
+        tlc.save_log(log_file)
+    del tlc
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        raise ValueError('Usage: python3 {} config.ini'.format(sys.argv[0]))
-    main(sys.argv[1])
+    if len(sys.argv) == 1:
+        raise ValueError('Usage: python3 {} config.ini [mc.log]'.format(sys.argv[0]))
+    main(sys.argv[1], None if len(sys.argv) == 2 else sys.argv[2])
