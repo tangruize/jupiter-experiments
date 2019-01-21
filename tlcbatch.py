@@ -8,13 +8,17 @@ from collections import OrderedDict
 from io import StringIO
 from tlcwrapper import TLCWrapper
 
-if len(sys.argv) != 2:
-    raise ValueError('Usage: python3 {} result.md'.format(sys.argv[0]))
+if len(sys.argv) == 1:
+    raise ValueError('Usage: python3 {} result.md [worker num]'.format(sys.argv[0]))
+elif len(sys.argv) == 3:
+    workers = int(sys.argv[2])
+else:
+    workers = 10
 
 template = '''[options]
 target: {target}
 model name: {model}
-worker num: 10
+worker num: {worker}
 
 [behavior]
 temporal formula: {spec}
@@ -32,6 +36,16 @@ Msg: {msg}
 [override]
 Nop: [model value]
 '''
+
+
+class _SafeSubstitute(dict):
+    def __missing__(self, key):
+        if key == 'char' or key == 'client':
+            return '{{' + key + '}}'
+        return '{' + key + '}'
+
+
+template = template.format_map(_SafeSubstitute({'worker': workers}))
 
 config = OrderedDict()
 config['AbsJupiter'] = {'target': 'AbsJupiter/AbsJupiter.tla',
@@ -138,7 +152,7 @@ for client in range(1, 4):
             tlc = TLCWrapper(config_string_io)
             print('starting "{}" : {} clients, {} chars'.format(proto, len(config_clients), len(config_chars)))
             result = tlc.run()
-            output.write(formatter.format(proto, 'No', proto_config['_model'], str(result['start time']), 10,
+            output.write(formatter.format(proto, 'No', proto_config['_model'], str(result['start time']), workers,
                                           str(result['time consuming']), result['diameter'], result['total states'],
                                           result['distinct states'], sym_char, 'NO'))
             output.flush()
