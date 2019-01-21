@@ -3,6 +3,7 @@
 
 # Created by tangruize on 19-1-20.
 import sys
+import os
 
 from collections import OrderedDict
 from io import StringIO
@@ -13,7 +14,9 @@ if len(sys.argv) == 1:
 elif len(sys.argv) == 3:
     workers = int(sys.argv[2])
 else:
-    workers = 10
+    workers = os.cpu_count()
+    if workers is None:
+        workers = 1
 
 template = '''[options]
 target: {target}
