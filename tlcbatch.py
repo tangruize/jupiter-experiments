@@ -116,15 +116,19 @@ title = formatter.format(*title)
 title2 = formatter.format(*['-' * i for i in field_len])
 
 for client in range(1, 4):
+    suffix_client = 's' if client != 1 else ''
     for char in range(1, 4):
         if client == 3 and char == 3:
             continue
         config_clients = clients[:client]
         config_chars = chars[:char]
-        output.write('\n## {} Clients `{{{}}}` + {} Chars `{{{}}}`\n'.format(client, ', '.join(config_clients),
-                                                                             char, ', '.join(config_chars)))
+        suffix_char = 's' if char != 1 else ''
+        output.write('\n## {} Client{} `{{{}}}` + {} Char{} `{{{}}}`\n'.format(
+            client, suffix_client, ', '.join(config_clients), char, suffix_char, ', '.join(config_chars))
+        )
         output.write(title)
         output.write(title2)
+        sym_char = 'YES' if char != 1 else 'NO'
         for proto in config:
             proto_config = config[proto]
             proto_config['client'] = ', '.join(config_clients)
@@ -136,9 +140,8 @@ for client in range(1, 4):
             result = tlc.run()
             output.write(formatter.format(proto, 'No', proto_config['_model'], str(result['start time']), 10,
                                           str(result['time consuming']), result['diameter'], result['total states'],
-                                          result['distinct states'], 'YES', 'NO'))
+                                          result['distinct states'], sym_char, 'NO'))
             output.flush()
-            tlc.save_log()
             del tlc
             print()
 

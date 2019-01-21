@@ -162,7 +162,7 @@ class TLCWrapper:
     default_mc_tla = 'MC.tla'
     default_mc_log = 'MC.out'
 
-    def __init__(self, config_file=None, gen_cfg_fn=None, gen_tla_fn=None, is_log=True):
+    def __init__(self, config_file=None, log_file=True, gen_cfg_fn=None, gen_tla_fn=None):
         """create model dir, chdir, copy files and generate tlc configfile"""
         config_file = config_file if config_file is not None else self.default_config_file
         self.cfg = ConfigParser()
@@ -171,8 +171,10 @@ class TLCWrapper:
             self.cfg.read_file(config_file)
         else:
             self.cfg.read(config_file)
-        self.is_log = is_log
         self.orig_cwd = os.getcwd()
+
+        if isinstance(log_file, str):  # if log_file specified, open it before change cwd
+            self.log_file = open(log_file, 'w')
 
         target = self.cfg.get('options', 'target')
         model_name = self.cfg.get('options', 'model name')
@@ -182,6 +184,12 @@ class TLCWrapper:
             if file.endswith('.tla'):
                 copy2(file, model_name)
         os.chdir(model_name)
+
+        if log_file:
+            if not isinstance(log_file, str):
+                self.log_file = open(self.default_mc_log, 'w')
+        else:
+            self.log_file = None
 
         self.gen_cfg_fn = gen_cfg_fn if gen_cfg_fn is not None else self.default_mc_cfg
         self.gen_tla_fn = gen_tla_fn if gen_tla_fn is not None else self.default_mc_tla
@@ -194,9 +202,11 @@ class TLCWrapper:
                       'diameter', 'total states', 'distinct states', 'queued states',
                       'warnings', 'errors', 'exit state']
         self.result = OrderedDict(zip_longest(result_key, tuple()))
-        self.log = []
+        self.log_lines = []
 
     def __del__(self):
+        if hasattr(self.log_file, 'close'):
+            self.log_file.close()
         os.chdir(self.orig_cwd)
 
     def _parse_options(self):
@@ -247,8 +257,10 @@ class TLCWrapper:
 
         process = subprocess.Popen(self._tlc_cmd + self.options, stdout=subprocess.PIPE, universal_newlines=True)
         for line in iter(process.stdout.readline, ''):
-            if self.is_log:
-                self.log.append(line)
+            self.log_lines.append(line)
+            if self.log_file:
+                self.log_file.write(line)
+                self.log_file.flush()
             line = line.rstrip()
             if len(line) == 0:
                 continue
@@ -294,28 +306,29 @@ class TLCWrapper:
         return self.result
 
     def get_log(self):
-        return self.log
+        return self.log_lines
 
     def save_log(self, filename=None):
         if filename is None:
             filename = self.default_mc_log
         with open(filename, 'w') as f:
-            f.writelines(self.log)
+            f.writelines(self.log_lines)
 
 
-def main(config_file, log_file=None):
-    tlc = TLCWrapper(config_file)
+def main(config_file, log_file=True):
+    tlc = TLCWrapper(config_file, log_file=log_file)
     result = tlc.run()
     for msg in chain(result['warnings'], result['errors']):
         print(msg, file=sys.stderr)
     print('errors: {}, warnings: {}, exit_state: {}'.format(len(result['errors']), len(result['warnings']),
                                                             result['exit state']), file=sys.stderr)
-    if log_file is not None:
-        tlc.save_log(log_file)
     del tlc
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        raise ValueError('Usage: python3 {} config.ini [mc.log]'.format(sys.argv[0]))
-    main(sys.argv[1], None if len(sys.argv) == 2 else sys.argv[2])
+        raise ValueError('Usage: python3 {} config.ini [MC.out]'.format(sys.argv[0]))
+    if len(sys.argv) == 2:
+        main(sys.argv[1])
+    else:
+        main(sys.argv[1], sys.argv[2])
