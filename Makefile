@@ -2,7 +2,7 @@ WORKERS ?= 10
 TLA_FILES_DIR ?=
 
 run:
-	python3 tlcbatch.py result.md $(WORKERS)
+	python3 jupiter-all-batch.py result.md $(WORKERS)
 
 run-refinement:
 	python3 jupiter-refinement-batch.py mc_result_dir $(WORKERS)

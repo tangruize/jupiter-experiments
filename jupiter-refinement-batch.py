@@ -137,7 +137,12 @@ for proto, proto_config in config.items():
             config_string_io = StringIO(template.format(**proto_config))
             tlc = TLCWrapper(config_string_io)
             print('starting "{}" : {} clients, {} chars'.format(proto, client, char))
-            result = tlc.run()
+            try:
+                result = tlc.run()
+            except KeyboardInterrupt:
+                print('Interrupted: "{}" with {} clients, {} chars'.format(proto, client, char))
+                del tlc
+                continue
             client_char = '({}, {})'.format(client, char)
             str_list = []
             for item in (client_char, result['diameter'], result['total states'], result['distinct states'],
