@@ -55,13 +55,13 @@ class _SafeSubstitute(dict):
 template = template.format_map(_SafeSubstitute({'worker': workers}))
 
 config = OrderedDict()
-config['AbsJupiterH'] = {'FILENAME': 'tlc-absjupiterh-table.tex',
-                         'VERIFYING': r'\absjupiter{} satisfies $WLSpec$',
-                         'target': 'AbsJupiterH/AbsJupiterH.tla',
-                         '_model': 'WLSpec',
-                         'spec': 'SpecH',
-                         'invariant': 'WLSpec: WLSpec',
-                         'msg': 'Cop'}
+config['AbsJupiter'] = {'FILENAME': 'tlc-absjupiter-table.tex',
+                        'VERIFYING': r'\absjupiter{} satisfies $WLSpec$',
+                        'target': 'AbsJupiterH/AbsJupiterH.tla',
+                        '_model': 'WLSpec',
+                        'spec': 'SpecH',
+                        'invariant': 'WLSpec: WLSpec',
+                        'msg': 'Cop'}
 config['CJupiterImplAbsJupiter'] = {'FILENAME': 'tlc-cjupiterimplabsjupiter-table.tex',
                                     'VERIFYING': r'\cjupiter{} refines \absjupiter{}',
                                     'target': 'CJupiterImplAbsJupiter/CJupiterImplAbsJupiter.tla',
