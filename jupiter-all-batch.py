@@ -154,7 +154,12 @@ for client in range(1, 4):
             config_string_io = StringIO(template.format(**proto_config))
             tlc = TLCWrapper(config_string_io)
             print('starting "{}" : {} clients, {} chars'.format(proto, len(config_clients), len(config_chars)))
-            result = tlc.run()
+            try:
+                result = tlc.run()
+            except KeyboardInterrupt:
+                print('Interrupted: "{}" with {} clients, {} chars'.format(proto, client, char))
+                del tlc
+                continue
             output.write(formatter.format(proto, 'No', proto_config['_model'], str(result['start time']), workers,
                                           str(result['time consuming']), result['diameter'], result['total states'],
                                           result['distinct states'], sym_char, 'NO'))
