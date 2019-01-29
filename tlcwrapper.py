@@ -271,9 +271,9 @@ class TLCWrapper:
     def init_result(self):
         result_key = ['start time', 'finish time', 'time consuming',
                       'diameter', 'total states', 'distinct states', 'queued states',
-                      'info', 'errors', 'tlc bug', 'warnings', 'error trace',
+                      'info', 'errors', 'tlc bug', 'warnings', 'error trace', 'other msg',
                       'coverage', 'exit state']
-        result_key_is_list = ['info', 'errors', 'tlc bug', 'warnings', 'error trace', 'coverage']
+        result_key_is_list = ['info', 'errors', 'tlc bug', 'warnings', 'error trace', 'other msg', 'coverage']
         self.result = OrderedDict(zip_longest(result_key, tuple()))  # fill None
         for key in result_key_is_list:
             self.result[key] = []
@@ -302,9 +302,11 @@ class TLCWrapper:
         tmp_lines = []
         message_code = -1  # see https://github.com/jameshfisher/tlaplus/blob/master/tlatools/src/tlc2/output/EC.java
         message_type = -1  # see https://github.com/jameshfisher/tlaplus/blob/master/tlatools/src/tlc2/output/MP.java
-        message_type_key = ('info', 'errors', 'tlc bug', 'warnings', 'error trace')
+        message_type_key = ('info', 'errors', 'tlc bug', 'warnings', 'error trace', 'other msg')
 
         def process_message():
+            if len(tmp_lines) == 0:
+                return
             line = '\n'.join(tmp_lines)
             self.result[message_type_key[message_type]].append((datetime.now(), line))
             if message_code == 2185:  # Starting...
@@ -349,18 +351,19 @@ class TLCWrapper:
 
         for msg_line in iter(process.stdout.readline, ''):
             if msg_line == '':  # sentinel
-                if len(tmp_lines) != 0:
-                    process_message()
+                process_message()
                 break
             self.log_lines.append(msg_line)
             if self.log_file:
                 self.log_file.write(msg_line)
                 self.log_file.flush()
             msg_line = msg_line.rstrip()
-            if msg_line.startswith('@!@!@STARTMSG'):
-                message_code, message_type = tuple(int(i) for i in msg_line.split(' ')[1].split(':'))
-            elif msg_line.startswith('@!@!@ENDMSG'):
+            if message_code == -1 and msg_line.startswith('@!@!@STARTMSG'):
                 process_message()
+                message_code, message_type = tuple(int(i) for i in msg_line.split(' ')[1].split(':'))
+            elif message_code != -1 and msg_line.startswith('@!@!@ENDMSG ' + str(message_code)):
+                process_message()
+                message_code, message_type = -1, -1
                 tmp_lines = []
             else:
                 tmp_lines.append(msg_line)

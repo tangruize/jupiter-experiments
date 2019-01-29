@@ -4,6 +4,9 @@ TLA_FILES_DIR ?=
 run:
 	python3 tlcbatch.py result.md $(WORKERS)
 
+run-refinement:
+	python3 jupiter-refinement-batch.py mc_result_dir $(WORKERS)
+
 clean:
 	for i in `find . -maxdepth 1 -type d | grep Jupiter`; do find $$i -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -rf; done
 
