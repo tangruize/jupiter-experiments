@@ -41,7 +41,7 @@ Msg: {msg}
 Nop: [model value]
 
 [state constraint]
-SC: TLCSet("exit", TLCGet("diameter") > 26)
+SC: TLCSet("exit", TLCGet("distinct") > {distinct})
 '''
 
 
@@ -61,28 +61,32 @@ config['AbsJupiter'] = {'FILENAME': 'tlc-absjupiter-table.tex',
                         '_model': 'WLSpec',
                         'spec': 'SpecH',
                         'invariant': 'WLSpec: WLSpec',
-                        'msg': 'Cop'}
+                        'msg': 'Cop',
+                        'distinct': 100000000}
 config['CJupiterImplAbsJupiter'] = {'FILENAME': 'tlc-cjupiterimplabsjupiter-table.tex',
                                     'VERIFYING': r'\cjupiter{} refines \absjupiter{}',
                                     'target': 'CJupiterImplAbsJupiter/CJupiterImplAbsJupiter.tla',
                                     '_model': 'AbsJ!Spec',
                                     'spec': 'Spec',
                                     'invariant': '[properties]\nCJupiterImplAbsJupiter: AbsJ!Spec',
-                                    'msg': 'Cop'}
+                                    'msg': 'Cop',
+                                    'distinct': 50000000}
 config['XJupiterImplCJupiter'] = {'FILENAME': 'tlc-xjupiterimplcjupiter-table.tex',
                                   'VERIFYING': r'\xjupiter{} refines \cjupiter{}',
                                   'target': 'XJupiterImplCJupiter/XJupiterImplCJupiter.tla',
                                   '_model': 'CJ!Spec',
                                   'spec': 'SpecImpl',
                                   'invariant': '[properties]\nXJupiterImplCJupiter: CJ!Spec',
-                                  'msg': 'Cop'}
+                                  'msg': 'Cop',
+                                  'distinct': 50000000}
 config['AJupiterImplXJupiter'] = {'FILENAME': 'tlc-ajupiterimplxjupiter-table.tex',
                                   'VERIFYING': r'\ajupiter{} refines \xjupiter{}',
                                   'target': 'AJupiterImplXJupiter/AJupiterImplXJupiter.tla',
                                   '_model': 'XJ!Spec',
                                   'spec': 'SpecImpl',
                                   'invariant': '[properties]\nAJupiterImplXJupiter: XJ!Spec',
-                                  'msg': 'AJMsgEx'}
+                                  'msg': 'AJMsgEx',
+                                  'distinct': 50000000}
 
 latex_template_begin = r'''% file: FILENAME
 
