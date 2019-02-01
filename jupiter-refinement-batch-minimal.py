@@ -117,7 +117,7 @@ formatter = '    {} \\\\ \\hline\n'.format(' & '.join(formatter))
 
 chars = ['a', 'b', 'c', 'd', 'e']
 clients = ['c1', 'c2', 'c3', 'c4', 'c5']
-exp_size = [(3, 3), (2, 4), (4, 2)]
+exp_size = [(1, 4), (4, 1), (3, 3), (2, 4), (4, 2)]
 
 os.makedirs(sys.argv[1], exist_ok=True)
 
