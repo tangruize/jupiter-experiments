@@ -1,0 +1,22 @@
+% file: tlc-absjupiter-table.tex
+
+% \usepackage{graphicx}
+\begin{table}[t]
+  \caption{Model checking results of verifying that \absjupiter{} satisfies $WLSpec$.}
+  \label{tbl:tlc-absjupiter}
+  \resizebox{\textwidth}{!}{%
+    \centering
+    \renewcommand*{\arraystretch}{1.1}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{\incell{TLC Model}{$(\# Clients, \# Chars)$}} & \textbf{Diameter} & \textbf{\# States} & \textbf{\# Distinct States} 
+    & \textbf{\incell{Checking Time}{$(hh:mm:ss)$}} \\ \hline
+    \hline
+    $(1, 4)$     & $17$       & $53273$            & $30393$            & $0:00:04$    \\ \hline
+    $(4, 1)$     & $26$       & $194877$           & $61117$            & $0:00:09$    \\ \hline
+    $(3, 3)$     & $25$       & $175457016$        & $100000015$        & $2:59:29$    \\ \hline
+    $(2, 4)$     & $20$       & $153275009$        & $100000021$        & $3:54:49$    \\ \hline
+    $(4, 2)$     & $22$       & $222738876$        & $100000012$        & $3:16:45$    \\ \hline
+    \end{tabular}%
+  }
+\end{table}

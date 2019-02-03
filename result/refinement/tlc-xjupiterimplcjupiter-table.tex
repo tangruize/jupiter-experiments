@@ -1,0 +1,22 @@
+% file: tlc-xjupiterimplcjupiter-table.tex
+
+% \usepackage{graphicx}
+\begin{table}[t]
+  \caption{Model checking results of verifying that \xjupiter{} refines \cjupiter{}.}
+  \label{tbl:tlc-xjupiterimplcjupiter}
+  \resizebox{\textwidth}{!}{%
+    \centering
+    \renewcommand*{\arraystretch}{1.1}
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \textbf{\incell{TLC Model}{$(\# Clients, \# Chars)$}} & \textbf{Diameter} & \textbf{\# States} & \textbf{\# Distinct States} 
+    & \textbf{\incell{Checking Time}{$(hh:mm:ss)$}} \\ \hline
+    \hline
+    $(1, 4)$     & $17$       & $53273$            & $30393$            & $0:00:07$    \\ \hline
+    $(4, 1)$     & $26$       & $194877$           & $61117$            & $0:00:30$    \\ \hline
+    $(3, 3)$     & $20$       & $139577795$        & $80000020$         & $8:59:52$    \\ \hline
+    $(2, 4)$     & $19$       & $122113291$        & $80000022$         & $8:01:35$    \\ \hline
+    $(4, 2)$     & $19$       & $175896403$        & $80000011$         & $11:40:50$   \\ \hline
+    \end{tabular}%
+  }
+\end{table}
