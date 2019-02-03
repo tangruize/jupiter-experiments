@@ -70,7 +70,7 @@ config['CJupiterImplAbsJupiter'] = {'FILENAME': 'tlc-cjupiterimplabsjupiter-tabl
                                     'spec': 'Spec',
                                     'invariant': '[properties]\nCJupiterImplAbsJupiter: AbsJ!Spec',
                                     'msg': 'Cop',
-                                    'distinct': 50000000}
+                                    'distinct': 80000000}
 config['XJupiterImplCJupiter'] = {'FILENAME': 'tlc-xjupiterimplcjupiter-table.tex',
                                   'VERIFYING': r'\xjupiter{} refines \cjupiter{}',
                                   'target': 'XJupiterImplCJupiter/XJupiterImplCJupiter.tla',
@@ -78,7 +78,7 @@ config['XJupiterImplCJupiter'] = {'FILENAME': 'tlc-xjupiterimplcjupiter-table.te
                                   'spec': 'SpecImpl',
                                   'invariant': '[properties]\nXJupiterImplCJupiter: CJ!Spec',
                                   'msg': 'Cop',
-                                  'distinct': 50000000}
+                                  'distinct': 80000000}
 config['AJupiterImplXJupiter'] = {'FILENAME': 'tlc-ajupiterimplxjupiter-table.tex',
                                   'VERIFYING': r'\ajupiter{} refines \xjupiter{}',
                                   'target': 'AJupiterImplXJupiter/AJupiterImplXJupiter.tla',
@@ -86,7 +86,7 @@ config['AJupiterImplXJupiter'] = {'FILENAME': 'tlc-ajupiterimplxjupiter-table.te
                                   'spec': 'SpecImpl',
                                   'invariant': '[properties]\nAJupiterImplXJupiter: XJ!Spec',
                                   'msg': 'AJMsgEx',
-                                  'distinct': 50000000}
+                                  'distinct': 80000000}
 
 latex_template_begin = r'''% file: FILENAME
 
