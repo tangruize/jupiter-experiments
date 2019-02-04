@@ -62,5 +62,5 @@ XJ == INSTANCE XJupiter WITH Msg <- Cop,
 THEOREM SpecImpl => XJ!Spec
 =============================================================================
 \* Modification History
-\* Last modified Sat Jan 19 10:54:42 CST 2019 by hengxin
-\* Created Sat Dec 29 18:36:51 CST 2018 by hengxin
+\* Last modified Sat Jan 19 10:54:42 CST 2019 by anonymous
+\* Created Sat Dec 29 18:36:51 CST 2018 by anonymous

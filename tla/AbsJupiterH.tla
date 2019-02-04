@@ -33,5 +33,5 @@ WLSpec == \* The weak list specification
 THEOREM SpecH => []WLSpec
 =============================================================================
 \* Modification History
-\* Last modified Fri Feb 01 13:02:51 CST 2019 by hengxin
-\* Created Sat Dec 15 09:00:46 CST 2018 by hengxin
+\* Last modified Fri Feb 01 13:02:51 CST 2019 by anonymous
+\* Created Sat Dec 15 09:00:46 CST 2018 by anonymous
