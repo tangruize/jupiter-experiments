@@ -24,6 +24,3 @@ VARIABLES
 
 Comm == INSTANCE CSComm
 =============================================================================
-\* Modification History
-\* Last modified Mon Jan 14 17:24:11 CST 2019 by hengxin
-\* Created Sun Jan 13 09:51:52 CST 2019 by hengxin

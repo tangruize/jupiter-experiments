@@ -1,5 +1,6 @@
 WORKERS ?= 10
 TLA_FILES_DIR ?=
+PATTERN_TO_DEL ?= ______dummy_pattern______
 
 run:
 	python3 jupiter-all-batch.py result.md $(WORKERS)
@@ -16,3 +17,6 @@ clean:
 update:
 	@test $(TLA_FILES_DIR) || (echo Error: TLA_FILES_DIR not set && test)
 	for i in `find . -maxdepth 1 -type d | grep Jupiter`; do for j in `ls $$i | grep .tla`; do cp -a $(TLA_FILES_DIR)/$$j $${i}/$$j; done; done
+
+anonymous:
+	find . -type f -name \*.tla -o -name \*.py | xargs sed -i -e '/\* Modification History/,+2d' -e '/$(PATTERN_TO_DEL)/d'

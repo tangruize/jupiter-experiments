@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-# Created by tangruize on 19-1-18.
 import sys
 import re
 import os

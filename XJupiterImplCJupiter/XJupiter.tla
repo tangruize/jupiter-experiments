@@ -73,6 +73,3 @@ CSSync == \* Each client c \in Client is synchonized with the Server.
     
 THEOREM Spec => []CSSync
 =============================================================================
-\* Modification History
-\* Last modified Sat Jan 12 15:57:05 CST 2019 by hengxin
-\* Created Tue Oct 09 16:33:18 CST 2018 by hengxin

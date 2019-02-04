@@ -40,6 +40,3 @@ SSend(c, cm) == \* The Server sents a message cm[cl] to client cl (other than c)
 SSendSame(c, m) == \* The Server broadcasts the message m to all clients other than c.
     SSend(c, [cl \in Client |-> m])
 =============================================================================
-\* Modification History
-\* Last modified Sat Jan 19 16:28:48 CST 2019 by hengxin
-\* Created Sun Jun 24 10:25:34 CST 2018 by hengxin

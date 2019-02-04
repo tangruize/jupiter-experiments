@@ -60,6 +60,3 @@ SRevInt(ServerPerform(_)) == \* The Server receives and processes a message.
     /\ ApplyNewAop(Server)
     /\ UNCHANGED chins
 =============================================================================
-\* Modification History
-\* Last modified Sun Jan 13 10:53:07 CST 2019 by hengxin
-\* Created Tue Dec 04 19:01:01 CST 2018 by hengxin

@@ -80,6 +80,3 @@ Compactness == \* Compactness of state space
     Comm!EmptyChannel => Cardinality(Range(copss)) = 1
 THEOREM Spec => []Compactness
 =============================================================================
-\* Modification History
-\* Last modified Tue Jan 29 10:11:54 CST 2019 by hengxin
-\* Created Wed Dec 05 19:55:52 CST 2018 by hengxin

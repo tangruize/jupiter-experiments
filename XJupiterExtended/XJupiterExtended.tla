@@ -50,6 +50,3 @@ FairnessEx ==
 
 SpecEx == InitEx /\ [][NextEx]_varsEx \* /\ FairnessEx
 =============================================================================
-\* Modification History
-\* Last modified Sat Jan 12 15:56:59 CST 2019 by hengxin
-\* Created Tue Oct 30 20:32:27 CST 2018 by hengxin

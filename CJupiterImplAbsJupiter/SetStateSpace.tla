@@ -17,6 +17,3 @@ xForm(NextCop(_, _, _, _), r, cop, ss) ==
                                         xss \cup {xcoph, xfcoph})
     IN  xFormHelper(cop, ctxDiff, ss \cup {cop}) 
 =============================================================================
-\* Modification History
-\* Last modified Thu Jan 10 08:55:58 CST 2019 by hengxin
-\* Created Wed Jan 09 21:25:30 CST 2019 by hengxin

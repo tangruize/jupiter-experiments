@@ -49,6 +49,3 @@ MinOfSet(set) == CHOOSE min \in set:(\A x \in set: min \leq x)
 
 MaxOfSet(set) == CHOOSE max \in set:(\A x \in set: max \geq x)
 =============================================================================
-\* Modification History
-\* Last modified Tue Dec 04 19:43:16 CST 2018 by hengxin
-\* Created Fri Jul 06 13:21:26 CST 2018 by hengxin

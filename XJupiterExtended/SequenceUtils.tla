@@ -62,7 +62,6 @@ Retain(seq, R) ==
 (*                                                              *)
 (* If index > Len(seq) + 1, then it appends the element to seq. *)
 (*                                                              *)
-(* (ADDED by hengxin; July 04, 2018)                            *)
 (****************************************************************)
 InsertElement(seq, elem, index) ==
   [i \in 1 .. (Len(seq) + 1) |-> IF i < index
@@ -118,7 +117,6 @@ PermutationsOf(T) == { [x \in 1..Len(T) |-> T[P[x]]] : P \in PermutationKey(Len(
 (*                                                              *)
 (* Precondition: elem \in SeqImage(seq).                        *)
 (*                                                              *)
-(* ADDED by hengxin; Aug. 12, 2018                              *)
 (****************************************************************)
 RECURSIVE FirstIndexOfElement(_,_)
 FirstIndexOfElement(seq, elem) ==
@@ -149,7 +147,6 @@ FirstIndexOfElementSafe(seq, elem) ==
 (* in both sequences, the relative order of them in the two     *)
 (* sequences are the same.                                      *)
 (*                                                              *)
-(* ADDED by hengxin; Aug. 12, 2018                              *)
 (****************************************************************)
 Compatible(seq1, seq2) ==
     \/ seq1 = seq2
@@ -162,7 +159,6 @@ Compatible(seq1, seq2) ==
 (****************************************************************)
 (* The length of the longest common subsequence of two sequences seq1 and seq2.                       *)
 (*                                                              *)
-(* ADDED by hengxin; Aug. 12, 2018                              *)
 (****************************************************************)
 RECURSIVE LCS(_,_)
 LCS(seq1, seq2) ==
@@ -178,6 +174,3 @@ LCSCompatible(seq1, seq2) ==
 LCSCompatibleTest(S) ==
     \A seq1, seq2 \in PermsWithin(S): LCSCompatible(seq1, seq2)
 =============================================================================
-\* Modification History
-\* Last modified Tue Dec 04 19:42:23 CST 2018 by hengxin
-\* Created Tue Jul 03 15:21:02 CST 2018 by hengxin

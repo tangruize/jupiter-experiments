@@ -21,6 +21,3 @@ xFormFull(xform(_, _), op, ops) ==
 xFormShift(xform(_, _), op, ops, shift) == \* shift of ops
     xFormFull(xform, op, SubSeq(ops, shift + 1, Len(ops)))
 =============================================================================
-\* Modification History
-\* Last modified Thu Jan 17 10:30:18 CST 2019 by hengxin
-\* Created Sat Jan 12 14:55:34 CST 2019 by hengxin

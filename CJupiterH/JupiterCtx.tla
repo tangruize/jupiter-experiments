@@ -44,6 +44,3 @@ SRevCtx ==
 ClientConstraint == \* Each client generates at most 2 operations. 
     \forall c \in Client: cseq[c] <= 3
 =============================================================================
-\* Modification History
-\* Last modified Tue Jan 29 10:11:36 CST 2019 by hengxin
-\* Created Wed Dec 05 20:03:50 CST 2018 by hengxin

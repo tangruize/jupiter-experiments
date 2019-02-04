@@ -11,6 +11,3 @@ EmptyGraph == [node |-> {{}}, edge |-> {}]
 g (+) h == \* A union (in terms of set) of two graphs g and h.
     [node |-> g.node \cup h.node, edge |-> g.edge \cup h.edge]
 =============================================================================
-\* Modification History
-\* Last modified Thu Jan 03 16:38:09 CST 2019 by hengxin
-\* Created Wed Dec 19 11:11:25 CST 2018 by hengxin

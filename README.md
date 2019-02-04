@@ -43,8 +43,6 @@ The first parameter of the script is the configuration file, the detailed rules 
 in `config.ini`; the second parameter is optional tlc log file (`MC_out.txt` by default).
 
 ---
-Ruize Tang
-
 2019-01-21 14:12:12
 
 2019-02-01 23:48:06
