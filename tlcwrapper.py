@@ -202,7 +202,7 @@ class TLCWrapper:
 
         target = self.cfg.get('options', 'target')
         model_name = self.cfg.get('options', 'model name')
-        os.chdir(os.path.dirname(os.path.realpath(target)))
+        os.chdir(os.path.dirname(target))
         os.makedirs(model_name, exist_ok=True)
         for file in os.listdir('.'):
             if file.endswith('.tla'):
