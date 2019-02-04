@@ -41,10 +41,3 @@ Any files start with `MC` may be helpful for you.
 The `tlcwrapper.py` script encapsulates the running mode of tlc, which can be reused.
 The first parameter of the script is the configuration file, the detailed rules of the configuration file can be found 
 in `config.ini`; the second parameter is optional tlc log file (`MC_out.txt` by default).
-
----
-Ruize Tang
-
-2019-01-21 14:12:12
-
-2019-02-01 23:48:06
