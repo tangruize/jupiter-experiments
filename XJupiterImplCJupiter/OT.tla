@@ -40,5 +40,5 @@ OT(lop, rop) == \* lop is transformed against rop
        []  lop.type = "Del" /\ rop.type = "Del" -> OTDD(lop, rop)
 =============================================================================
 \* Modification History
-\* Last modified Sun Jan 13 10:41:55 CST 2019 by hengxin
-\* Created Sun Jun 24 15:57:48 CST 2018 by hengxin
+\* Last modified Sun Jan 13 10:41:55 CST 2019 by anonymous
+\* Created Sun Jun 24 15:57:48 CST 2018 by anonymous

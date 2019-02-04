@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-# Created by tangruize on 19-1-20.
+# Created by anonymous on 19-1-20.
 import sys
 import os
 

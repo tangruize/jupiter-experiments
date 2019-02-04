@@ -87,5 +87,5 @@ QC == \* Quiescent Consistency
 THEOREM SpecEx => []QC
 =============================================================================
 \* Modification History
-\* Last modified Thu Jan 17 10:38:50 CST 2019 by hengxin
-\* Created Thu Dec 27 21:15:09 CST 2018 by hengxin
+\* Last modified Thu Jan 17 10:38:50 CST 2019 by anonymous
+\* Created Thu Dec 27 21:15:09 CST 2018 by anonymous

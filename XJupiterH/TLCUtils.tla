@@ -16,5 +16,5 @@ TLCCnt(i, multiplier) ==
     /\ (TLCGet(i)[2] % multiplier = 0) => PrintT(TLCGet(i))
 =============================================================================
 \* Modification History
-\* Last modified Mon Dec 03 20:15:57 CST 2018 by hengxin
-\* Created Thu Oct 11 19:50:44 CST 2018 by hengxin
+\* Last modified Mon Dec 03 20:15:57 CST 2018 by anonymous
+\* Created Thu Oct 11 19:50:44 CST 2018 by anonymous

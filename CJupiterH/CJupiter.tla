@@ -73,5 +73,5 @@ Compactness == \* Compactness of CJupiter: the CSSes at all replicas are the sam
 THEOREM Spec => []Compactness
 =============================================================================
 \* Modification History
-\* Last modified Tue Jan 29 10:10:58 CST 2019 by hengxin
-\* Created Sat Sep 01 11:08:00 CST 2018 by hengxin
+\* Last modified Tue Jan 29 10:10:58 CST 2019 by anonymous
+\* Created Sat Sep 01 11:08:00 CST 2018 by anonymous

@@ -54,5 +54,5 @@ CJ == INSTANCE CJupiter
 THEOREM SpecImpl => CJ!Spec
 =============================================================================
 \* Modification History
-\* Last modified Tue Jan 29 13:50:03 CST 2019 by hengxin
-\* Created Fri Oct 26 15:00:19 CST 2018 by hengxin
+\* Last modified Tue Jan 29 13:50:03 CST 2019 by anonymous
+\* Created Fri Oct 26 15:00:19 CST 2018 by anonymous

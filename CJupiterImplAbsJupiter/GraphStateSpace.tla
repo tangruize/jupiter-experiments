@@ -69,5 +69,5 @@ xFormCopCopsShift(cop, cops, shift) ==
     xFormCopCops(cop, SubSeq(cops, shift + 1, Len(cops)))
 =============================================================================
 \* Modification History
-\* Last modified Sat Jan 19 16:32:38 CST 2019 by hengxin
-\* Created Wed Dec 19 18:15:25 CST 2018 by hengxin
+\* Last modified Sat Jan 19 16:32:38 CST 2019 by anonymous
+\* Created Wed Dec 19 18:15:25 CST 2018 by anonymous

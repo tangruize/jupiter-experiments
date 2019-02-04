@@ -41,5 +41,5 @@ SSendSame(c, m) == \* The Server broadcasts the message m to all clients other t
     SSend(c, [cl \in Client |-> m])
 =============================================================================
 \* Modification History
-\* Last modified Sat Jan 19 16:28:48 CST 2019 by hengxin
-\* Created Sun Jun 24 10:25:34 CST 2018 by hengxin
+\* Last modified Sat Jan 19 16:28:48 CST 2019 by anonymous
+\* Created Sun Jun 24 10:25:34 CST 2018 by anonymous
