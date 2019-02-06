@@ -1,5 +1,5 @@
 ----------------------------- MODULE XJupiterH -----------------------------
-EXTENDS XJupiter, TLCUtils
+EXTENDS XJupiter
 -------------------------------------------------------------
 VARIABLE list
 varsH == <<vars, list>>

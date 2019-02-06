@@ -7,21 +7,12 @@ So the TLC Batch script was written to automatically check the Jupiter protocol 
 ## How to run
 Simply make it.
 ```bash
-# run all and output a markdown result file.
-# configurations: combination of 3x3 (but no 3x3) scales using 10 workers with no state constraint.
+# run refinement and output 4 latex result table files.
+# will only run AbsJupiterH, AJupiterImplXJupiter, CJupiterImplAbsJupiter and XJupiterImplCJupiter.
 make
 make run
 make WORKERS=  # using n workers. n will be set as physical cores.
 make WORKERS=2  # using 2 workers.
-
-# run refinement and output 4 latex result table files. configurations: 5x5 with state constraints.
-# will only run AbsJupiterH, AJupiterImplXJupiter, CJupiterImplAbsJupiter and XJupiterImplCJupiter.
-# NOTE: infeasible to get all results.
-make run-refinement
-
-# run a simplified refinement configuration. scales: (1, 4), (4, 1), (2, 4), (3, 3), (4, 2)
-# NOTE: last 4 scales using state constraint that stop TLC if distinct states reached a certain value.
-make run-refinement-minimal
 ```
 
 ## Others

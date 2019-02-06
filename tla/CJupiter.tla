@@ -1,6 +1,6 @@
 ------------------------------ MODULE CJupiter ------------------------------
 (*
-Specification of our own CJupiter protocol; see Wei@OPODIS'2018.
+Specification of CJupiter; see Wei@OPODIS'2018.
 *)
 EXTENDS JupiterSerial, GraphStateSpace 
 -----------------------------------------------------------------------------
@@ -40,7 +40,7 @@ ServerPerform(cop) ==
 -----------------------------------------------------------------------------
 DoOp(c, op) == 
     LET cop == [op |-> op, oid |-> [c |-> c, seq |-> cseq[c]], ctx |-> ds[c]]
-     IN /\ ClientPerform(c, cop)
+    IN  /\ ClientPerform(c, cop)
         /\ Comm!CSend(cop)
 
 Do(c) == 
@@ -73,5 +73,5 @@ Compactness == \* Compactness of CJupiter: the CSSes at all replicas are the sam
 THEOREM Spec => []Compactness
 =============================================================================
 \* Modification History
-\* Last modified Tue Jan 29 10:10:58 CST 2019 by anonymous
+\* Last modified Tue Feb 05 11:07:47 CST 2019 by anonymous
 \* Created Sat Sep 01 11:08:00 CST 2018 by anonymous

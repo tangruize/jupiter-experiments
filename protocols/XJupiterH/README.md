@@ -7,7 +7,7 @@
 
 [GraphStateSpace.tla](../../tla/GraphStateSpace.tla)
 
-[GraphsUtil.tla](../../tla/GraphsUtil.tla)
+[GraphUtils.tla](../../tla/GraphUtils.tla)
 
 [JupiterCtx.tla](../../tla/JupiterCtx.tla)
 
@@ -23,8 +23,6 @@
 
 [SystemModel.tla](../../tla/SystemModel.tla)
 
-[TLCUtils.tla](../../tla/TLCUtils.tla)
-
 [XJupiterH.tla](../../tla/XJupiterH.tla)
 
 [XJupiter.tla](../../tla/XJupiter.tla)
@@ -38,7 +36,7 @@
 
 [GraphStateSpace.pdf](../../pdf/GraphStateSpace.pdf)
 
-[GraphsUtil.pdf](../../pdf/GraphsUtil.pdf)
+[GraphUtils.pdf](../../pdf/GraphUtils.pdf)
 
 [JupiterCtx.pdf](../../pdf/JupiterCtx.pdf)
 
@@ -53,8 +51,6 @@
 [SetUtils.pdf](../../pdf/SetUtils.pdf)
 
 [SystemModel.pdf](../../pdf/SystemModel.pdf)
-
-[TLCUtils.pdf](../../pdf/TLCUtils.pdf)
 
 [XJupiterH.pdf](../../pdf/XJupiterH.pdf)
 

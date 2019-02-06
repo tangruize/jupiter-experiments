@@ -5,7 +5,7 @@
 
 [GraphStateSpace.tla](../../tla/GraphStateSpace.tla)
 
-[GraphsUtil.tla](../../tla/GraphsUtil.tla)
+[GraphUtils.tla](../../tla/GraphUtils.tla)
 
 [JupiterCtx.tla](../../tla/JupiterCtx.tla)
 
@@ -30,7 +30,7 @@
 
 [GraphStateSpace.pdf](../../pdf/GraphStateSpace.pdf)
 
-[GraphsUtil.pdf](../../pdf/GraphsUtil.pdf)
+[GraphUtils.pdf](../../pdf/GraphUtils.pdf)
 
 [JupiterCtx.pdf](../../pdf/JupiterCtx.pdf)
 
