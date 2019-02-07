@@ -1,0 +1,32 @@
+% file: tlc-ajupiterimplxjupiter-table.tex
+
+% \usepackage{graphicx}
+\begin{table}[h]
+  \caption{Model checking results of verifying that \ajupiter{} refines \xjupiter{}.}
+  \label{tbl:appendix-tlc-ajupiterimplxjupiter}
+  \resizebox{\textwidth}{!}{%
+	\centering
+	\renewcommand*{\arraystretch}{1.2}
+	\begin{threeparttable}
+	  \begin{tabular}{|c||c|c|c|c|}
+		\hline
+		\textbf{\incell{TLC Model}{$(\# Clients, \# Chars)$}} & \textbf{Diameter} & \textbf{\# States} & \textbf{\# Distinct States} 
+		& \textbf{\incell{Checking Time}{$(hh:mm:ss)$}} \\ \hline
+		\hline
+		$(1, 1)$				&   $5$            &  $7$            & $6$                      & $0:00:01$              \\ \hline
+		$(1, 2)$				&   $9$            &  $86$           & $57$                     & $0:00:01$              \\ \hline
+		$(1, 3)$				&   $13$           &  $1696$         & $1014$                   & $0:00:01$              \\ \hline
+		$(1, 4)$     			&   $17$       	   &  $53273$        & $30393$            		& $0:00:07$    			 \\ \hline \hline
+		$(2, 1)$				&   $10$           &  $71$           & $53$                     & $0:00:00$              \\ \hline
+		$(2, 2)$				&   $19$           &  $50215$        & $28307$                  & $0:00:05$              \\ \hline
+		$(2, 3)$				&   $28$           &  $150627005$    & $75726121$               & $4:23:52$              \\ \hline
+		$(2, 4)$     			&   $18$       	   &  $122137621$    & $\theta = 80000000$~\tnote{$\star$} & $3:52:46$   \\ \hline \hline
+		$(3, 1)$				&   $17$           &  $2785$         & $1288$                   & $0:00:01$              \\ \hline
+		$(3, 2)$				&   $33$           &  $206726218$    & $74737027$               & $4:52:39$              \\ \hline
+		$(3, 3)$     			&   $18$       	   &  $139823551$    & $\theta = 80000000$~\tnote{$\star$} & $4:48:23$   \\ \hline \hline
+		$(4, 1)$     			&   $26$       	   &  $194877$       & $61117$            		& $0:00:17$    			 \\ \hline
+		$(4, 2)$     			&   $21$       	   &  $176794063$    & $\theta = 80000000$~\tnote{$\star$} & $3:49:58$   \\ \hline
+	  \end{tabular}%
+	\end{threeparttable}
+  }
+\end{table}
