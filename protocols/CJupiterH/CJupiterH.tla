@@ -1,1 +1,0 @@
-../../tla/CJupiterH.tla

@@ -5,7 +5,7 @@ We write a script to automatically conduct comprehensive model checking experime
 with the [`jupiter-refinement-project`](https://github.com/hengxin/jupiter-refinement-project).
 
 ### Requirements
-This has been tested on Linux (with JDK 8), but *not* yet on Windows or Mac.
+- JRE 8 (*Not* tested on any lower or higher versions)
 
 ### Experiments
 Now, the script checks two kinds of properties:
@@ -34,6 +34,8 @@ Each of the following command conducts the model checking experiments described 
 and it is allowed to set the number of worker threads.
 
 ### Commands
+
+#### On Linux
 ```bash
 # Usage Note: In the following three commands, "make" is identical to "make run".
 make		# using 10 workers by default (used in our setting)
@@ -41,19 +43,30 @@ make WORKERS=2  # using 2 workers
 make WORKERS=   # setting the number of workers as that of physical cores in your machine
 ```
 
-### Output: 
-The model checking results are stored in the `mc_result` directory, consisting of 
+#### On Windows
+```
+cd protocols
+python ..\jupiter-cav2019.py ..\mc_result 10
+```
 
-- A markdown table containing raw (statistic) data.
+### Output: 
+The model checking results are stored in a subdirectory (named with the timestamps it is generated)
+in the `mc_result` directory, consisting of 
+
+- A markdown table containing all raw (statistic) data.
+- Four markdown tables, one for each property to check.
 - Four LaTeX tables which can be used in paper, one for each property to check.
 
-The name of each table file ends with the timestamps it is generated.
+An incomplete sample model checking result (only for (1,1) and (1,2)) is given in `20190207-162510-sample`.
 
-A sample model checking result (only the LaTeX tables) is given in `mc_result/cav2019_mc_result`.
+A complete sample model checking result (only the LaTeX tables) is given in `mc_result/cav2019`.
 
 ### To stop:
 - `Ctrl + C`: Stop the individual experiment currently in running
 - `Ctrl + \`: Stop the whole batch of experiments
+
+> Warning: When it is interrupted by `Ctrl + C` or `Ctrl + \`, 
+some tables may be incomplete or even be not generated.
 
 ## How is this implemented?
 

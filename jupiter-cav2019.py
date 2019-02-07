@@ -6,9 +6,11 @@
 import sys
 import os
 import time
+import re
 
 from collections import OrderedDict, defaultdict
 from io import StringIO
+from shutil import copy2
 from tlcwrapper import TLCWrapper
 
 if len(sys.argv) == 1:
@@ -61,6 +63,7 @@ template = template.format_map(_SafeSubstitute({'worker': workers}))
 config = OrderedDict()
 config['AbsJupiter'] = {'FILENAME': 'tlc-absjupiter-table',  # filename will add a timestamp
                         'VERIFYING': r'\absjupiter{} satisfies $WLSpec$',  # latex description
+                        'VERIFYING_MD': r'`absjupiter` satisfies `WLSpec`',
                         'target': 'AbsJupiterH/AbsJupiterH.tla',  # target file
                         '_model': 'WLSpec',  # model (description)
                         'spec': 'SpecH',
@@ -69,6 +72,7 @@ config['AbsJupiter'] = {'FILENAME': 'tlc-absjupiter-table',  # filename will add
                         'distinct': 100000000}  # state constraint
 config['CJupiterImplAbsJupiter'] = {'FILENAME': 'tlc-cjupiterimplabsjupiter-table',
                                     'VERIFYING': r'\cjupiter{} refines \absjupiter{}',
+                                    'VERIFYING_MD': r'`cjupiter` refines `absjupiter`',
                                     'target': 'CJupiterImplAbsJupiter/CJupiterImplAbsJupiter.tla',
                                     '_model': 'AbsJ!Spec',
                                     'spec': 'Spec',
@@ -77,6 +81,7 @@ config['CJupiterImplAbsJupiter'] = {'FILENAME': 'tlc-cjupiterimplabsjupiter-tabl
                                     'distinct': 80000000}
 config['XJupiterImplCJupiter'] = {'FILENAME': 'tlc-xjupiterimplcjupiter-table',
                                   'VERIFYING': r'\xjupiter{} refines \cjupiter{}',
+                                  'VERIFYING_MD': r'`xjupiter` refines `cjupiter`',
                                   'target': 'XJupiterImplCJupiter/XJupiterImplCJupiter.tla',
                                   '_model': 'CJ!Spec',
                                   'spec': 'SpecImpl',
@@ -85,6 +90,7 @@ config['XJupiterImplCJupiter'] = {'FILENAME': 'tlc-xjupiterimplcjupiter-table',
                                   'distinct': 80000000}
 config['AJupiterImplXJupiter'] = {'FILENAME': 'tlc-ajupiterimplxjupiter-table',
                                   'VERIFYING': r'\ajupiter{} refines \xjupiter{}',
+                                  'VERIFYING_MD': r'`ajupiter` refines `xjupiter`',
                                   'target': 'AJupiterImplXJupiter/AJupiterImplXJupiter.tla',
                                   '_model': 'XJ!Spec',
                                   'spec': 'SpecImpl',
@@ -113,6 +119,11 @@ latex_template_end = r'''    \end{tabular}%
 \end{table}
 '''
 
+# markdown output file template
+markdown_template_begin = r'''# Model checking results of verifying that VERIFYING.
+
+'''
+
 # using uniform start time as timestamp
 start_time = time.strftime("%Y%m%d-%H%M%S")
 
@@ -122,7 +133,8 @@ def get_time():
 
 
 def get_filename(proto_):
-    return '{}-{}.tex'.format(proto_['FILENAME'], get_time())
+    # return '{}-{}.tex'.format(proto_['FILENAME'], get_time())
+    return '{}.tex'.format(proto_['FILENAME'])
 
 
 def get_latex_formatter():
@@ -135,8 +147,10 @@ def get_latex_formatter():
     return formatter_, field_len_
 
 
-def get_markdown_formatter():
+def get_markdown_formatter(ignore_proto=False):
     field_len_ = [22, 14, 19, 9, 13, 8, 10, 17]
+    if ignore_proto:
+        field_len_ = [7, 5] + field_len_[2:]
     formatter_ = []
     for i in field_len_:
         formatter_.append('{{:<{}}}'.format(i))
@@ -144,13 +158,34 @@ def get_markdown_formatter():
     return formatter_, field_len_
 
 
-def get_markdown_title(formatter_, field_len_):
+def get_markdown_title(formatter_, field_len_, ignore_proto=False):
     """markdown table header"""
     title_ = ['Protocol', 'Property', 'Start Time', '# Workers', 'Checking Time', 'Diameter', '# States',
               '# Distinct States']
+    if ignore_proto:
+        title_ = ['Clients', 'Chars'] + title_[2:]
     title_ = formatter_.format(*title_)
     title2 = formatter_.format(*['-' * i for i in field_len_])
     return title_ + title2
+
+
+def copy_files_from_md(proto_):
+    """copy required tla files from README.md"""
+    target_dir = os.path.dirname(proto_['target'])
+    md_file = open(os.path.join(target_dir, 'README.md'), 'r')
+    pat = re.compile(r'\[(.*tla)\]\((.*)\)')
+    file_list = []
+    for line in md_file:
+        line = line.strip()
+        if line == '# PDF Files':
+            break
+        m = pat.match(line)
+        if m is not None:
+            tla_dst = os.path.join(target_dir, m.groups()[0])
+            tla_src = os.path.join(target_dir, m.groups()[1])
+            file_list.append(tla_dst)
+            copy2(tla_src, tla_dst)
+    return file_list
 
 
 # scales
@@ -161,9 +196,13 @@ exp_size = [(1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
             (3, 1), (3, 2), (3, 3),
             (4, 1), (4, 2),
             (5, 1)]
+# exp_size = [(1, 1), (1, 2)]
 sc_set = {(2, 4), (3, 3), (4, 2)}  # big experiment that use state constraint
 
 formatter, _ = get_latex_formatter()
+md_formatter, md_field_len = get_markdown_formatter(ignore_proto=True)
+md_title = get_markdown_title(md_formatter, md_field_len, ignore_proto=True)
+sys.argv[1] = os.path.join(sys.argv[1], get_time())
 os.makedirs(sys.argv[1], exist_ok=True)
 result_dict = defaultdict(list)
 
@@ -174,6 +213,11 @@ for proto, proto_config in config.items():
     latex_begin = latex_template_begin.replace('FILENAME', proto_config['FILENAME'] + '.tex')\
         .replace('VERIFYING', proto_config['VERIFYING']).replace('LABEL', proto.lower())  # replace descriptions
     latex_file.write(latex_begin)  # write template
+    markdown_file = open(os.path.join(sys.argv[1], proto_config['FILENAME'] + '.md'), 'w')
+    markdown_begin = markdown_template_begin.replace('VERIFYING', proto_config['VERIFYING_MD'])
+    markdown_file.write(markdown_begin)
+    markdown_file.write(md_title)
+    tla_files = copy_files_from_md(proto_config)
     for client, char in exp_size:
         config_clients = clients[:client]
         config_chars = chars[:char]
@@ -203,17 +247,23 @@ for proto, proto_config in config.items():
         latex_file.write(formatter.format(*str_list))  # write result
         latex_file.flush()
         result_dict[(client, char)].append((proto, proto_config.copy(), result))  # save result for markdown file
+        markdown_file.write(md_formatter.format(client, char, str(result['start time']), workers,
+                                                str(result['time consuming']), result['diameter'],
+                                                result['total states'], result['distinct states']))
+        markdown_file.flush()
         del tlc
         print()
-
+    for tla in tla_files:
+        os.remove(tla)
     latex_file.write(latex_template_end)
     latex_file.close()
+    markdown_file.close()
 
 
-# markdown result file
+# markdown all result in one file
 formatter, field_len = get_markdown_formatter()
 title = get_markdown_title(formatter, field_len)
-markdown_file = open(os.path.join(sys.argv[1], 'result-{}.md'.format(get_time())), 'w')
+markdown_file = open(os.path.join(sys.argv[1], 'result-all.md'), 'w')
 markdown_file.write('# Model Checking Result\n')
 for client, char in exp_size:
     suffix_client = 's' if client != 1 else ''

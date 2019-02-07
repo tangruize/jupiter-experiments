@@ -1,1 +1,0 @@
-../../tla/JupiterInterface.tla
