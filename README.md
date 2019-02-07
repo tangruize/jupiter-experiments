@@ -1,8 +1,11 @@
 # `jupiter-experiments`
 
-## Description
+## Model Checking Experiments
 We write a script to automatically conduct comprehensive model checking experiments
 with the [`jupiter-refinement-project`](https://github.com/hengxin/jupiter-refinement-project).
+
+### Requirements
+This has been tested on Linux (with JDK 8), but *not* yet on Windows or Mac.
 
 ### Experiments
 Now, the script checks two kinds of properties:
@@ -39,7 +42,7 @@ make WORKERS=   # setting the number of workers as that of physical cores in you
 ```
 
 ### Output: 
-The model checking results are stored in the `mc_result` directory, insisting of 
+The model checking results are stored in the `mc_result` directory, consisting of 
 
 - A markdown table containing raw (statistic) data.
 - Four LaTeX tables which can be used in paper, one for each property to check.
